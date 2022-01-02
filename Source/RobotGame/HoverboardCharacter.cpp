@@ -1,12 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "HoverboardMovement.h"
+#include "HoverboardCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
-AHoverboardMovement::AHoverboardMovement()
+AHoverboardCharacter::AHoverboardCharacter()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -20,36 +21,39 @@ AHoverboardMovement::AHoverboardMovement()
 	Camera->SetupAttachment(BoomArm, USpringArmComponent::SocketName);
 	Camera->bUsePawnControlRotation = false;
 
-	//bUseControllerRotationPitch = false;
-	//bUseControllerRotationRoll = false;
-	//bUseControllerRotationYaw = false;
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0, 540, 0);
 }
 
 // Called when the game starts or when spawned
-void AHoverboardMovement::BeginPlay()
+void AHoverboardCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void AHoverboardMovement::Tick(float DeltaTime)
+void AHoverboardCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
 // Called to bind functionality to input
-void AHoverboardMovement::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AHoverboardCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AHoverboardMovement::MoveForward);
-	PlayerInputComponent->BindAxis(TEXT("MoveRIght"), this, &AHoverboardMovement::MoveRight);
-	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &AHoverboardMovement::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &AHoverboardMovement::AddControllerYawInput);
+	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AHoverboardCharacter::MoveForward);
+	PlayerInputComponent->BindAxis(TEXT("MoveRIght"), this, &AHoverboardCharacter::MoveRight);
+	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &AHoverboardCharacter::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &AHoverboardCharacter::AddControllerYawInput);
 }
 
-void AHoverboardMovement::MoveForward(float AxisValue)
+void AHoverboardCharacter::MoveForward(float AxisValue)
 {
 	if (Controller != NULL && AxisValue != 0.0) {
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -59,7 +63,7 @@ void AHoverboardMovement::MoveForward(float AxisValue)
 	}
 }
 
-void AHoverboardMovement::MoveRight(float AxisValue)
+void AHoverboardCharacter::MoveRight(float AxisValue)
 {
 	if (Controller != NULL && AxisValue != 0.0) {
 		const FRotator Rotation = Controller->GetControlRotation();

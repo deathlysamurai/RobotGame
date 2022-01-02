@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "HoverboardMovement.generated.h"
+#include "HoverboardCharacter.generated.h"
 
 UCLASS()
-class ROBOTGAME_API AHoverboardMovement : public ACharacter
+class ROBOTGAME_API AHoverboardCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -19,7 +19,7 @@ class ROBOTGAME_API AHoverboardMovement : public ACharacter
 
 public:
 	// Sets default values for this pawn's properties
-	AHoverboardMovement();
+	AHoverboardCharacter();
 
 protected:
 	// Called when the game starts or when spawned
