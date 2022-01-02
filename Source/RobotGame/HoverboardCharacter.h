@@ -11,6 +11,9 @@ class ROBOTGAME_API AHoverboardCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* Hoverboard;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	class USpringArmComponent* BoomArm;
 
