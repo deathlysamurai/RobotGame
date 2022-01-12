@@ -24,5 +24,13 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+private:
+	float HoverDistance;
+	float Stiffness;
+	float Damping;
+	float PreviousCompression;
+	float HoverForce;
+	float Acceleration;
+
+	class UPrimitiveComponent* RefToHoverboard;
 };

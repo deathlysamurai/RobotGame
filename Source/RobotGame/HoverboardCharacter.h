@@ -11,14 +11,14 @@ class ROBOTGAME_API AHoverboardCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* Hoverboard;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	class USpringArmComponent* BoomArm;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* Camera;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> HoverboardClass;
 
 public:
 	// Sets default values for this pawn's properties
@@ -27,6 +27,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void AttachHoverboard();
 
 	virtual void MoveForward(float AxisValue);
 	virtual void MoveRight(float AxisValue);
@@ -37,5 +38,4 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 };

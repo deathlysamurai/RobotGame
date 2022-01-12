@@ -12,9 +12,6 @@ AHoverboardCharacter::AHoverboardCharacter()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Hoverboard = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Hoverboard"));
-	Hoverboard->SetupAttachment(RootComponent);
-
 	BoomArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera boom"));
 	BoomArm->SetupAttachment(RootComponent);
 	BoomArm->TargetArmLength = 300.0f;
@@ -36,7 +33,21 @@ AHoverboardCharacter::AHoverboardCharacter()
 void AHoverboardCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	//GetCapsuleMesh()->SetCollisionProfileName(TEXT("NoCollision"));
 	
+
+	//AttachHoverboard();
+}
+
+void AHoverboardCharacter::AttachHoverboard() 
+{
+	UWorld *world = GetWorld();
+	FVector location = GetActorLocation();
+	location.Z -= 5;
+	FRotator rotation = GetActorRotation();
+	AActor* Hoverboard = world->SpawnActor(HoverboardClass, &location, &rotation);
+	AttachToActor(Hoverboard, FAttachmentTransformRules::SnapToTargetNotIncludingScale, "StandSocket");
 }
 
 // Called every frame
@@ -51,7 +62,7 @@ void AHoverboardCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AHoverboardCharacter::MoveForward);
-	PlayerInputComponent->BindAxis(TEXT("MoveRIght"), this, &AHoverboardCharacter::MoveRight);
+	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AHoverboardCharacter::MoveRight);
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &AHoverboardCharacter::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &AHoverboardCharacter::AddControllerYawInput);
 }
