@@ -36,26 +36,31 @@ void UHoverComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	//if (RefToHoverboard) {
-	//	FVector start = GetComponentLocation();
-	//	FVector end = start - (GetUpVector() * (HoverDistance * 2));
-	//	FCollisionQueryParams CollisionParams;
-	//	CollisionParams.AddIgnoredActor(GetOwner());
-	//	FHitResult OutHit;
+	if (RefToHoverboard) {
+		FVector start = GetComponentLocation();
+		FVector end = start - (GetUpVector() * (HoverDistance * 2));
+		FCollisionQueryParams CollisionParams;
+		CollisionParams.AddIgnoredActor(GetOwner());
+		FHitResult OutHit;
 
-	//	DrawDebugLine(GetWorld(), start, end, FColor::Green, false, -1.0f, ECC_WorldStatic, 2.0f);
+		DrawDebugLine(GetWorld(), start, end, FColor::Green, false, -1.0f, ECC_WorldStatic, 2.0f);
 
-	//	if (GetWorld()->LineTraceSingleByChannel(OutHit, start, end, ECC_Visibility, CollisionParams)) {
-	//		float compression = ((HoverDistance - OutHit.Distance) / HoverDistance);
-	//		float stiffnessFactor = Stiffness * compression;
-	//		float dampingFactor = Damping * ((compression - PreviousCompression) / GetWorld()->DeltaTimeSeconds);
+		FRotator rotation = RefToHoverboard->GetComponentRotation();
 
-	//		HoverForce = stiffnessFactor + dampingFactor;
-	//		PreviousCompression = compression;
+		if (GetWorld()->LineTraceSingleByChannel(OutHit, start, end, ECC_Visibility, CollisionParams)) {
+			float compression = ((HoverDistance - OutHit.Distance) / HoverDistance);
+			float stiffnessFactor = Stiffness * compression;
+			float dampingFactor = Damping * ((compression - PreviousCompression) / GetWorld()->DeltaTimeSeconds);
 
-	//		FVector force = GetUpVector() * HoverForce;
-	//		RefToHoverboard->AddForceAtLocation(force, GetComponentLocation());
-	//	}
-	//}
+			HoverForce = stiffnessFactor + dampingFactor;
+			PreviousCompression = compression;
+
+			FVector force = GetUpVector() * HoverForce;
+			RefToHoverboard->AddForceAtLocation(force, GetComponentLocation());
+		}
+		else {
+			RefToHoverboard->SetWorldRotation(rotation);
+		}
+	}
 }
 

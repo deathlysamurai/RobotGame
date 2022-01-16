@@ -63,25 +63,25 @@ void AHoverboard::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FVector start = Hoverboard->GetComponentLocation();
-	FVector end = start - (Hoverboard->GetUpVector() * (HoverDistance));
-	FCollisionQueryParams CollisionParams;
-	CollisionParams.AddIgnoredComponent(Hoverboard);
-	FHitResult OutHit;
+	//FVector start = Hoverboard->GetComponentLocation();
+	//FVector end = start - (Hoverboard->GetUpVector() * (HoverDistance));
+	//FCollisionQueryParams CollisionParams;
+	//CollisionParams.AddIgnoredComponent(Hoverboard);
+	//FHitResult OutHit;
 
-	DrawDebugLine(GetWorld(), start, end, FColor::Green, false, -1.0f, ECC_WorldStatic, 2.0f);
+	//DrawDebugLine(GetWorld(), start, end, FColor::Green, false, -1.0f, ECC_WorldStatic, 2.0f);
 
-	if (GetWorld()->LineTraceSingleByChannel(OutHit, start, end, ECC_Visibility, CollisionParams)) {
-		float compression = ((HoverDistance - OutHit.Distance) / HoverDistance);
-		float stiffnessFactor = Stiffness * compression;
-		float dampingFactor = Damping * ((compression - PreviousCompression) / GetWorld()->DeltaTimeSeconds);
+	//if (GetWorld()->LineTraceSingleByChannel(OutHit, start, end, ECC_Visibility, CollisionParams)) {
+	//	float compression = ((HoverDistance - OutHit.Distance) / HoverDistance);
+	//	float stiffnessFactor = Stiffness * compression;
+	//	float dampingFactor = Damping * ((compression - PreviousCompression) / GetWorld()->DeltaTimeSeconds);
 
-		HoverForce = stiffnessFactor + dampingFactor;
-		PreviousCompression = compression;
+	//	HoverForce = stiffnessFactor + dampingFactor;
+	//	PreviousCompression = compression;
 
-		FVector force = Hoverboard->GetUpVector() * HoverForce * 10;
-		Hoverboard->AddForce(force);
-	}
+	//	FVector force = Hoverboard->GetUpVector() * HoverForce * 10;
+	//	Hoverboard->AddForce(force);
+	//}
 }
 
 // Called to bind functionality to input
